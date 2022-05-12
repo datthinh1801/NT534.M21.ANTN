@@ -1,26 +1,19 @@
-import struct
+from web3 import Web3
 
-from Crypto.Hash import keccak
+if __name__ == "__main__":
+    group_id = int(input("[+] Group ID: ").strip(), 16)
+    node_id = int(input("[+] Node ID: ").strip(), 16)
+    node_addr = int(input("[+] Node public address: "), 16)
+    master_pub_key = int(input("[+] Master public key: "), 16)
 
+    hash_data = Web3.solidityKeccak(
+        ["uint8", "uint8", "address"],
+        [group_id, node_id, Web3.toChecksumAddress(hex(node_addr))],
+    )
+    hash_master_key = Web3.solidityKeccak(
+        ["address"], [Web3.toChecksumAddress(hex(master_pub_key))]
+    )
 
-def hash_keccak(input_byte) -> int:
-    k = keccak.new(digest_bits=256)
-    k.update(input_byte)
-    return int(k.hexdigest(), 16)
-
-
-group_id = int(input("[+] Group ID: ").strip()[:2], 16)
-node_id = int(input("[+] Node ID: ").strip()[:2], 16)
-node_addr = int(input("[+] Node public address: "), 16)
-master_pub_key = int(input("[+] Master public key: "), 16)
-
-# concat groupID|nodeID|nodePubAddr
-ids = struct.pack(">BB", group_id, node_id)
-node_addr_bytes = node_addr.to_bytes(20, "big")
-tosign_data = ids + node_addr_bytes
-
-hash_data = hash_keccak(tosign_data)
-hash_master_key = hash_keccak(master_pub_key.to_bytes(20, "big"))
-
-signed_data = hash_data ^ hash_master_key
-print(f"[>] Ticket: {signed_data}")
+    signed_data = Web3.toInt(hash_data) ^ Web3.toInt(hash_master_key)
+    print(f"[>] Ticket (hex): {hex(signed_data)}")
+    print(f"[>] Ticket (uint): {signed_data}")
