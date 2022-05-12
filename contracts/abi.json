@@ -1,0 +1,148 @@
+[
+    {
+        "inputs": [
+            {
+                "internalType": "uint8",
+                "name": "_category",
+                "type": "uint8"
+            },
+            {
+                "internalType": "uint8",
+                "name": "_grpId",
+                "type": "uint8"
+            },
+            {
+                "internalType": "uint8",
+                "name": "_id",
+                "type": "uint8"
+            },
+            {
+                "internalType": "uint256",
+                "name": "masterSignature",
+                "type": "uint256"
+            }
+        ],
+        "name": "BCTrustV2_AddNode",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint8",
+                "name": "addr",
+                "type": "uint8"
+            }
+        ],
+        "name": "BCTrustV2_ReadMSG",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint8",
+                "name": "sender",
+                "type": "uint8"
+            },
+            {
+                "internalType": "uint8",
+                "name": "receiver",
+                "type": "uint8"
+            },
+            {
+                "internalType": "string",
+                "name": "msg",
+                "type": "string"
+            }
+        ],
+        "name": "BCTrustV2_Send",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint8",
+                "name": "",
+                "type": "uint8"
+            }
+        ],
+        "name": "grpIdMasters",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "name": "membersGrpId",
+        "outputs": [
+            {
+                "internalType": "uint8",
+                "name": "",
+                "type": "uint8"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint8",
+                "name": "",
+                "type": "uint8"
+            }
+        ],
+        "name": "messages",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint8",
+                "name": "",
+                "type": "uint8"
+            }
+        ],
+        "name": "nodeIdMember",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    }
+]
