@@ -4,10 +4,10 @@ from utils import *
 if __name__ == "__main__":
     w3, abi, bytecode = init_contract()
     node_addr = input("[+] Node public address: ")
-    assert Web3.isChecksumAddress(node_addr) is True, "[x] Address is invalid!"
+    assert Web3.isAddress(node_addr) is True, "[x] Address is invalid!"
 
     contract_addr = input("[+] Contract address: ")
-    assert Web3.isChecksumAddress(contract_addr) is True, "[x] Address is invalid!"
+    assert Web3.isAddress(contract_addr) is True, "[x] Address is invalid!"
 
     contract_instance = w3.eth.contract(address=contract_addr, abi=abi)
     node_data = {"pub_addr": node_addr, "node_id": None, "group_id": None}
@@ -75,12 +75,9 @@ if __name__ == "__main__":
                 node_id = int(input("[+] Node ID (hex): "), 16)
             else:
                 node_id = node_data["node_id"]
-            try:
-                # FIXME: How to get a state data returned by a transaction?
                 message = contract_instance.functions.messages(node_id).call()
-                print(message)
-            except Exception as e:
-                print(e)
+                print(f'[msg] {message}')
+                # TODO: Remove old message after being read
         else:
             print("[x] Invalid selection!")
             break

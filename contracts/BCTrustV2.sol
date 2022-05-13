@@ -72,12 +72,4 @@ contract BCTrustV2 {
     ) public ControlOf(sender, receiver) {
         messages[receiver] = message;
     }
-
-    function BCTrustV2_ReadMSG(uint8 addr)
-        public
-        OnlyConcernedObject(addr)
-        returns (string memory)
-    {
-        return messages[addr];
-    }
 }

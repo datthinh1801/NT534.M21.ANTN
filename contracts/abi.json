@@ -31,25 +31,6 @@
 		"inputs": [
 			{
 				"internalType": "uint8",
-				"name": "addr",
-				"type": "uint8"
-			}
-		],
-		"name": "BCTrustV2_ReadMSG",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint8",
 				"name": "sender",
 				"type": "uint8"
 			},
