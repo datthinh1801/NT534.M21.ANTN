@@ -18,8 +18,17 @@ if __name__ == "__main__":
         print("[1] Add node")
         print("[2] Send a message")
         print("[3] Read messages")
+        print("[q] Quit")
 
-        selection = int(input("[>] "))
+        try:
+            selection = int(input("[>] "))
+        except:
+            if selection == "q":
+                print("[!] Exiting...")
+            else:
+                print("[x] Invalid selection!")
+            break
+
         if selection == 1:
             if contract_instance.functions.membersGrpId(node_addr).call() != 0:
                 print("[!] Node already registered!")
@@ -76,8 +85,21 @@ if __name__ == "__main__":
             else:
                 node_id = node_data["node_id"]
                 message = contract_instance.functions.messages(node_id).call()
-                print(f'[msg] {message}')
-                # TODO: Remove old message after being read
+                if len(message) > 0:
+                    print(f"[msg] {message}")
+                else:
+                    print("[!] No messages!")
+                try:
+                    tx_hash = contract_instance.functions.BCTrustV2_ClearMSG(
+                        node_id
+                    ).transact(
+                        {
+                            "from": node_addr,
+                            "to": contract_addr,
+                        }
+                    )
+                except:
+                    pass
         else:
             print("[x] Invalid selection!")
             break

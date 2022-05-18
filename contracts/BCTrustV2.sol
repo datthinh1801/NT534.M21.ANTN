@@ -72,4 +72,8 @@ contract BCTrustV2 {
     ) public ControlOf(sender, receiver) {
         messages[receiver] = message;
     }
+
+    function BCTrustV2_ClearMSG(uint8 _id) public OnlyConcernedObject(_id) {
+        messages[_id] = "";
+    }
 }

@@ -31,6 +31,19 @@
 		"inputs": [
 			{
 				"internalType": "uint8",
+				"name": "_id",
+				"type": "uint8"
+			}
+		],
+		"name": "BCTrustV2_ClearMSG",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint8",
 				"name": "sender",
 				"type": "uint8"
 			},
