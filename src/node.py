@@ -43,6 +43,8 @@ if __name__ == "__main__":
                 category = int(input("[+] Node type (0: master, 1: slave): "))
                 if category in [0, 1]:
                     break
+                else:
+                    print(Fore.YELLOW + "[!] Invalid selection!" + Style.RESET_ALL)
             while True:
                 group_id = int(input("[+] Group ID (hex): "), 16)
                 if group_id > 0:
@@ -85,7 +87,7 @@ if __name__ == "__main__":
                 node_data["node_id"] = node_id
                 node_data["group_id"] = group_id
             except:
-                print(Fore.RED + "[x] Node or group already exists!")
+                print(Fore.RED + "[x] Association failed!")
         elif selection == 2:
             if node_data["node_id"] == 0:
                 print(Fore.YELLOW + "[!] Node not registered!")

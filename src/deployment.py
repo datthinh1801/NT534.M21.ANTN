@@ -1,3 +1,4 @@
+from colorama import Fore, Style
 from utils import *
 
 
@@ -12,4 +13,4 @@ if __name__ == "__main__":
         address=tx_receipt.contractAddress,
         abi=abi,
     )
-    print(tx_receipt.contractAddress)
+    print(Fore.Green + f"[>] Contract addresses: {tx_receipt.contractAddress}")
