@@ -19,9 +19,10 @@ if __name__ == "__main__":
         print("[2] Send a message")
         print("[3] Read messages")
         print("[q] Quit")
+        selection = input("[>] ").strip()
 
         try:
-            selection = int(input("[>] "))
+            selection = int(selection)
         except:
             if selection == "q":
                 print("[!] Exiting...")
@@ -37,14 +38,16 @@ if __name__ == "__main__":
             category = int(input("[+] Node type (0: master, 1: slave): "))
             group_id = int(input("[+] Group ID (hex): "), 16)
             node_id = int(input("[+] Node ID (hex): "), 16)
-            ticket = 0
+            r = 0
+            s = 0
 
             if category == 1:
-                ticket = int(input("[+] Ticket (hex): "), 16)
+                r = int(input("[+] Ticket (int r): "))
+                s = int(input("[+] Ticket (int s): "))
 
             try:
                 tx_hash = contract_instance.functions.BCTrustV2_AddNode(
-                    category, group_id, node_id, ticket
+                    category, group_id, node_id, r, s
                 ).transact(
                     {
                         "from": node_addr,

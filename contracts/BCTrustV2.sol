@@ -33,7 +33,8 @@ contract BCTrustV2 {
         uint8 _category,
         uint8 _grpId,
         uint8 _id,
-        uint256 masterSignature
+        uint256 _r,
+        uint256 _s
     ) public {
         // the sender must not be assigned to any groupID
         assert(membersGrpId[msg.sender] == 0);
@@ -49,14 +50,15 @@ contract BCTrustV2 {
             // the group must already exist
             require(grpIdMasters[_grpId] != address(0));
             // check message signature
-            uint256 inputData = uint256(
-                keccak256(abi.encodePacked(_grpId, _id, msg.sender))
+            bytes32 input_byte = keccak256(
+                abi.encodePacked(_grpId, _id, msg.sender)
             );
-            uint256 masterKey = uint256(
-                keccak256(abi.encodePacked(grpIdMasters[_grpId]))
+            assert(
+                (ecrecover(input_byte, 27, bytes32(_r), bytes32(_s)) ==
+                    grpIdMasters[_grpId]) ||
+                    (ecrecover(input_byte, 28, bytes32(_r), bytes32(_s)) ==
+                        grpIdMasters[_grpId])
             );
-            uint256 recomputedSignature = inputData ^ masterKey;
-            assert(recomputedSignature == masterSignature);
         }
 
         // assign the nodeID to the node address

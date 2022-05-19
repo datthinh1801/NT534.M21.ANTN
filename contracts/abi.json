@@ -18,7 +18,12 @@
 			},
 			{
 				"internalType": "uint256",
-				"name": "masterSignature",
+				"name": "_r",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_s",
 				"type": "uint256"
 			}
 		],
