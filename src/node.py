@@ -1,18 +1,22 @@
+from colorama import Fore, Style
 from utils import *
 
 
 if __name__ == "__main__":
     w3, abi, bytecode = init_contract()
     node_addr = input("[+] Node public address: ")
-    assert Web3.isAddress(node_addr) is True, "[x] Address is invalid!"
+    assert Web3.isAddress(node_addr) is True, Fore.RED + "[x] Address is invalid!"
 
     contract_addr = input("[+] Contract address: ")
-    assert Web3.isAddress(contract_addr) is True, "[x] Address is invalid!"
+    assert Web3.isAddress(contract_addr) is True, Fore.RED + "[x] Address is invalid!"
 
     contract_instance = w3.eth.contract(address=contract_addr, abi=abi)
-    node_data = {"pub_addr": node_addr, "node_id": None, "group_id": None}
+    group_id = contract_instance.functions.membersGrpId(node_addr).call()
+    node_id = contract_instance.functions.membersId(node_addr).call()
+    node_data = {"pub_addr": node_addr, "node_id": node_id, "group_id": group_id}
 
     while True:
+        print(Style.RESET_ALL, end="")
         print("-" * 50)
         print("[+] Select an option:")
         print("[1] Add node")
@@ -25,19 +29,41 @@ if __name__ == "__main__":
             selection = int(selection)
         except:
             if selection == "q":
-                print("[!] Exiting...")
+                print(Fore.YELLOW + "[!] Exiting...")
             else:
-                print("[x] Invalid selection!")
+                print(Fore.RED + "[x] Invalid selection!")
             break
 
         if selection == 1:
-            if contract_instance.functions.membersGrpId(node_addr).call() != 0:
-                print("[!] Node already registered!")
+            if node_data["group_id"] != 0:
+                print(Fore.YELLOW + "[!] Node already registered!")
                 continue
 
-            category = int(input("[+] Node type (0: master, 1: slave): "))
-            group_id = int(input("[+] Group ID (hex): "), 16)
-            node_id = int(input("[+] Node ID (hex): "), 16)
+            while True:
+                category = int(input("[+] Node type (0: master, 1: slave): "))
+                if category in [0, 1]:
+                    break
+            while True:
+                group_id = int(input("[+] Group ID (hex): "), 16)
+                if group_id > 0:
+                    break
+                else:
+                    print(
+                        Fore.YELLOW
+                        + "[!] Group ID must be greater than 0!"
+                        + Style.RESET_ALL
+                    )
+            while True:
+                node_id = int(input("[+] Node ID (hex): "), 16)
+                if node_id > 0:
+                    break
+                else:
+                    print(
+                        Fore.YELLOW
+                        + "[!] Node ID must be greater than 0!"
+                        + Style.RESET_ALL
+                    )
+
             r = 0
             s = 0
 
@@ -55,17 +81,17 @@ if __name__ == "__main__":
                     }
                 )
                 w3.eth.wait_for_transaction_receipt(tx_hash)
-                print(f"[+] Transaction hash: {Web3.toHex(tx_hash)}")
+                print(Fore.GREEN + f"[+] Transaction hash: {Web3.toHex(tx_hash)}")
                 node_data["node_id"] = node_id
                 node_data["group_id"] = group_id
             except:
-                print("[x] Node or group already exists!")
+                print(Fore.RED + "[x] Node or group already exists!")
         elif selection == 2:
-            if node_data["node_id"] is None:
-                sender_id = int(input("[+] Sender ID (hex): "), 16)
-            else:
-                sender_id = node_data["node_id"]
+            if node_data["node_id"] == 0:
+                print(Fore.YELLOW + "[!] Node not registered!")
+                continue
 
+            sender_id = node_data["node_id"]
             receiver_id = int(input("[+] Receiver ID (hex): "), 16)
             message = input("[+] Message: ")
 
@@ -79,30 +105,31 @@ if __name__ == "__main__":
                     }
                 )
                 w3.eth.wait_for_transaction_receipt(tx_hash)
-                print(f"[+] Transaction hash: {Web3.toHex(tx_hash)}")
+                print(Fore.GREEN + f"[+] Transaction hash: {Web3.toHex(tx_hash)}")
             except:
-                print(f"[x] Sender and receiver are from different groups!")
+                print(Fore.RED + f"[x] Sender and receiver are from different groups!")
         elif selection == 3:
-            if node_data["node_id"] is None:
-                node_id = int(input("[+] Node ID (hex): "), 16)
+            if node_data["node_id"] == 0:
+                print(Fore.YELLOW + "[!] Node not registered!")
+                continue
+
+            node_id = node_data["node_id"]
+            message = contract_instance.functions.messages(node_id).call()
+            if len(message) > 0:
+                print(Fore.GREEN + f"[msg] {message}")
             else:
-                node_id = node_data["node_id"]
-                message = contract_instance.functions.messages(node_id).call()
-                if len(message) > 0:
-                    print(f"[msg] {message}")
-                else:
-                    print("[!] No messages!")
-                try:
-                    tx_hash = contract_instance.functions.BCTrustV2_ClearMSG(
-                        node_id
-                    ).transact(
-                        {
-                            "from": node_addr,
-                            "to": contract_addr,
-                        }
-                    )
-                except:
-                    pass
+                print(Fore.YELLOW + "[!] No new messages!")
+            try:
+                tx_hash = contract_instance.functions.BCTrustV2_ClearMSG(
+                    node_id
+                ).transact(
+                    {
+                        "from": node_addr,
+                        "to": contract_addr,
+                    }
+                )
+            except:
+                pass
         else:
-            print("[x] Invalid selection!")
+            print(Fore.YELLOW + "[x] Invalid selection!")
             break

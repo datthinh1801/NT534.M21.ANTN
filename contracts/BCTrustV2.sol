@@ -3,6 +3,7 @@ pragma solidity ^0.8.13;
 contract BCTrustV2 {
     // a mapping of address to groupID
     mapping(address => uint8) public membersGrpId;
+    mapping(address => uint8) public membersId;
     // a mapping of groupID to the address of the master node
     mapping(uint8 => address) public grpIdMasters;
     // a mapping of nodeID to its address
@@ -65,13 +66,14 @@ contract BCTrustV2 {
         nodeIdMember[_id] = msg.sender;
         // assign the groupID to the node address
         membersGrpId[msg.sender] = _grpId;
+        membersId[msg.sender] = _id;
     }
 
     function BCTrustV2_Send(
         uint8 sender,
         uint8 receiver,
         string memory message
-    ) public ControlOf(sender, receiver) {
+    ) public ControlOf(sender, receiver) OnlyConcernedObject(sender) {
         messages[receiver] = message;
     }
 
