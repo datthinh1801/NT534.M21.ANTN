@@ -1,9 +1,8 @@
 from web3 import Web3
-import random
-from Crypto.Hash import keccak
-from fastecdsa.curve import Curve
 from fastecdsa.point import Point
 from fastecdsa.curve import secp256k1
+
+import random
 
 
 def egcd(a, b):

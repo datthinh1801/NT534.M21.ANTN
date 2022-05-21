@@ -2,6 +2,11 @@
 	{
 		"inputs": [
 			{
+				"internalType": "uint256",
+				"name": "_auth_token",
+				"type": "uint256"
+			},
+			{
 				"internalType": "uint8",
 				"name": "_category",
 				"type": "uint8"
@@ -35,6 +40,34 @@
 	{
 		"inputs": [
 			{
+				"internalType": "uint256",
+				"name": "_token",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_r_auth",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_s_auth",
+				"type": "uint256"
+			}
+		],
+		"name": "BCTrustV2_Auth",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_auth_token",
+				"type": "uint256"
+			},
+			{
 				"internalType": "uint8",
 				"name": "_id",
 				"type": "uint8"
@@ -47,6 +80,24 @@
 	},
 	{
 		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_auth_token",
+				"type": "uint256"
+			}
+		],
+		"name": "BCTrustV2_Deauth",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_auth_token",
+				"type": "uint256"
+			},
 			{
 				"internalType": "uint8",
 				"name": "sender",
@@ -66,6 +117,30 @@
 		"name": "BCTrustV2_Send",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_auth_token",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint8",
+				"name": "_id",
+				"type": "uint8"
+			}
+		],
+		"name": "BCTrustV2_ReadMSG",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -120,25 +195,6 @@
 				"internalType": "uint8",
 				"name": "",
 				"type": "uint8"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint8",
-				"name": "",
-				"type": "uint8"
-			}
-		],
-		"name": "messages",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
 			}
 		],
 		"stateMutability": "view",
